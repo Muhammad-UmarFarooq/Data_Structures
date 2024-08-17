@@ -1,7 +1,7 @@
 //In this we have 1.create 2.display 3.exit(which frees  memory and exit the program) functions of linked list.
 // We are getting segmentation fault here -- Pointer Misuse : If any of the pointers (head, temp, newnode) are somehow altered or 
 // if there’s an attempt to dereference a NULL or invalid pointer, it could cause a segmentation fault.
-// This error has been resolved by not altering temp pointer variable but creating another pointer variable i.e.temp1 in display function.
+// This error has been resolved by not altering temp pointer variable but creating another pointer variable i.e.temp2 in display function.
 #include<stdio.h>
 #include<stdlib.h>
 // Define the structutre
@@ -37,17 +37,18 @@ void Create()
 // Display function
 void Display()
 {  
+    struct node *temp2
     if (head == NULL) 
     {
         printf("The list is empty.\n");
         return;
     }
-    temp=head;
+    temp2=head;
     printf("The elements in the linked list are:\n");
-	while(temp != NULL)
+	while(temp2 != NULL)
 	{
-		printf("%d\n",temp -> data);
-		temp = temp -> next;
+		printf("%d\n",temp2 -> data);
+		temp2 = temp2 -> next;
 	}
 }
 // Free function
