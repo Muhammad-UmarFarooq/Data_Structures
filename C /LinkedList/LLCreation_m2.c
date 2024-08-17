@@ -1,3 +1,4 @@
+
 //In this we have 1.create 2.display 3.exit(which frees  memory and exit the program) functions of linked list.
 // We are getting segmentation fault here -- Pointer Misuse : If any of the pointers (head, temp, newnode) are somehow altered or 
 // if there’s an attempt to dereference a NULL or invalid pointer, it could cause a segmentation fault.
@@ -37,7 +38,7 @@ void Create()
 // Display function
 void Display()
 {  
-    struct node *temp2
+    struct node *temp2;
     if (head == NULL) 
     {
         printf("The list is empty.\n");
