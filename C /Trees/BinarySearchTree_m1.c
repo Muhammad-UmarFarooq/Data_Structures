@@ -1,116 +1,112 @@
-// Binary search tree
+// Binary search tree (using iterative approach)
 // Operations insert,inorder,search
 #include<stdio.h>
 #include<stdlib.h>
-// Defining the node
-struct node
+
+// Defining the node structure
+struct node {
+    int data;
+    struct node *lchild;
+    struct node *rchild;
+} *root = NULL;
+
+// Function to create a newnode
+struct node *CreateNode(int key)
 {
-	struct node *lchild;
-	int data;
-	struct node *rchild;
-}*root = NULL;
+    struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = key;
+    newnode->lchild = newnode->rchild = NULL;
+    return newnode;
+}
 
 // Insert function
 void Insert(int key)
 {
-	// t1 - for pointing to root node
-    // r - follows the p node
-    // p - used for creating a newnode
-	struct node *t1=root;
-	struct node *r=NULL,*p;
-	// If it is the 1st node then this if state. is executed
-	if(root == NULL)
-	{
-		p = (struct node *)malloc(sizeof(struct node));
-		p->data =key;
-		p->lchild = p->rchild = NULL;
-		root = p;
-		return;
-	}
-	// If it is not the 1st node then below loop is executed
-	while(t1 != NULL)
-	{
-		r = t1;
-		if(key < t1->data)
-		{
-			t1 = t1->lchild;
-		}
-		else if(key > t1->data)
-		{
-			t1 = t1->rchild;
-		}
-		else
-		{
-			return;
-		}
-		
-	}
-    // Below 3 lines is used to create a node which is not first node
-	p = (struct node *)malloc(sizeof(struct node));
-		p->data =key;
-		p->lchild = p->rchild = NULL;
-	// We check whether the newnode to be inserted is towards right or left
-	if(key < r->data)
-	{
-		r->lchild = p;
-	}
-	else
-	{
-		r->rchild = p;
-	}
+    // t is for indicating root node
+    // r follows the t node
+    // p is for creating new node
+    struct node *t=root;
+    struct node *r=NULL,*p;
+    
+    // If tree is empty
+    if (root == NULL)
+    {
+        root = CreateNode(key);
+        return;
+    }
+    
+    // Traverse the tree to find the right position for the new node
+    while (t != NULL)
+    {
+        r = t;
+        if (key < t->data)
+            t = t->lchild;
+        else if (key > t->data)
+            t = t->rchild;
+        // This else is executed when the key == t->data
+        else
+            return;
+    }
+    
+    // Insert the new node as a child of the leaf node
+    p = CreateNode(key);
+    if (key < r->data)
+        r->lchild = p;
+    else
+        r->rchild = p;
 }
-// Inorder function
+
+// Inorder traversal function
 void Inorder(struct node *p)
 {
-	// Here p is pointing to root node
-	if(p)
-	{
-		Inorder(p->lchild);
-		printf("%d ",p->data);
-		Inorder(p->rchild);
-	}
+    if (p)
+    {
+        // p indicates the root node
+        Inorder(p->lchild);
+        printf("%d ", p->data);
+        Inorder(p->rchild);
+    }
 }
+
 // Search function
-struct node *Search(int key)
+struct node* Search(int key)
 {
-  // temp1 again local variable to indicate root node
-	struct node *temp1=root;
-	while(temp1 != NULL)
-	{
-		if(key == temp1->data)
-		{
-			return temp1;
-		}
-		else if(key < temp1->data)
-		{
-			temp1 = temp1->lchild;
-		}
-		else
-		{
-			temp1 = temp1->rchild;
-		}
-	}
-	return NULL;
+    // Again t indicates root node
+    struct node *t = root;
+    while (t != NULL) 
+    {
+        if (key == t->data)
+            return t;
+        else if (key < t->data)
+            t = t->lchild;
+        else
+            t = t->rchild;
+    }
+    // If t is NULL then this return function will return NULL
+    return NULL;
 }
 
 // Main function
 int main()
 {
-  // To store the value returned by Search function
-	struct node *temp2;
-	Insert(10);
-	Insert(5);
-	Insert(20);
-	Insert(8);
-	Insert(30);
-	
-	Inorder(root);
-		
-	temp2 = Search(30);
-	if(temp2 != NULL)
-	printf("\nElement %d is found",temp2->data);
-	else
-	printf("\nElement is not found");
-	
-	return 0;
+    // temp used for storing return node of Search function
+    struct node *temp;
+    Insert(50);
+    Insert(30);
+    Insert(20);
+    Insert(40);
+    Insert(70);
+    Insert(60);
+    Insert(80);
+
+    printf("Inorder traversal: ");
+    Inorder(root);
+    
+    temp = Search(40);
+    if (temp != NULL)
+        printf("\nElement %d found", temp->data);
+    else
+        printf("\nElement not found");
+        
+    return 0;
 }
