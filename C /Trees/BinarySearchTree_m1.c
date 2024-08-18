@@ -1,3 +1,5 @@
+// Binary search tree
+// Operations insert,inorder,search
 #include<stdio.h>
 #include<stdlib.h>
 // Defining the node
