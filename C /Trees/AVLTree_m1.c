@@ -1,8 +1,9 @@
 // AVL Trees
-// Operations -- NodeHeight,
+/* Operations -- NodeHeight,
                  BalanceFactor,
                  Insert,
-                 Main  
+                 Main
+*/
 // Node structure
 struct node 
 {
