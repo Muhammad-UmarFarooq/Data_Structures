@@ -1,5 +1,7 @@
 // Binary search tree (using iterative approach)
-// Operations insert,recursive inorder,search
+// Operations -- Insert,
+                 Recursive inorder,
+                 Search
 #include<stdio.h>
 #include<stdlib.h>
 
