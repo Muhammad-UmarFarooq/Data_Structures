@@ -1,11 +1,12 @@
 // Recursive BST
-// Operations -- Insert,
+/* Operations -- Insert,
 		 Inorder,
 	         Search,
 		 Height,
 	         Inorder predecessor,
 		 Inorder successor,
 		 Delete
+*/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -16,22 +17,35 @@ struct node {
     struct node *rchild;
 } *root = NULL;
 
-// Function to create a newnode
-struct node *CreateNode(int key)
-{
-    struct node *newnode = (struct node*)malloc(sizeof(struct node));
-    newnode->data = key;
-    newnode->lchild = newnode->rchild = NULL;
-    return newnode;
-}
-
 // Insert function
+struct node *Insert(struct node *p,int key)
+{
+// p indicates root
+// t used for creating the new node
+struct node *t=NULL;
 
+if(p==NULL)
+{
+   t=(struct node *)malloc(sizeof(struct node));
+   t->data=key;
+   t->lchild=t->rchild=NULL;
+   return t;
+}
+	
+if(key < p->data)
+   p->lchild = Insert(p->lchild,key);
+	
+else if(key > p->data)
+   p->rchild = Insert(p->rchild,key);
+	
+return p;
+}
 
 // Inorder traversal function
 void Inorder(struct node *p)
 {
     if (p)
+    // if(p) (or) if(p != NULL)
     {
         // p indicates the root node
         Inorder(p->lchild);
@@ -74,7 +88,6 @@ struct node *InPre(struct node *p)
 {
     while(p && p->rchild != NULL)
        p = p->rchild;
-       
     return p;
 }
 
@@ -136,7 +149,6 @@ int main()
     // temp used for storing return node of Search function
     struct node *temp;
     root = Insert(root,50);
-    printf("root %d root->data %d",root,root->data);
     Insert(root,30);
     Insert(root,20);
     Insert(root,40);
@@ -147,7 +159,7 @@ int main()
     printf("\nInorder traversal: ");
     Inorder(root);
     
-    Delete(root,20);
+    Delete(root,84);
     
     printf("\nInorder traversal: ");
     Inorder(root);
