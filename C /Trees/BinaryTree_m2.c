@@ -1,5 +1,8 @@
 // Binary tree 
-// Operations create,preorder,inorder,postorder
+// Operations -- Create,
+                 Preorder,
+	         Inorder,
+		 Postorder
 #include<stdio.h>
 #include<stdlib.h>
 //Node structure
