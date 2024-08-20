@@ -1,9 +1,17 @@
 // AVL Trees
 /* Operations -- NodeHeight,
                  BalanceFactor,
+                 LLrotation,
+                 RRrotation,
+                 LRrotation,
+                 RLrotation,
                  Insert,
+		 Inorder,
+                 Preorder,   
                  Main
 */
+#include<stdio.h>
+#include<stdlib.h>
 // Node structure
 struct node 
 {
@@ -16,69 +24,66 @@ struct node
 // NodeHeight function
 int NodeHeight(struct node *p)
 {
+     if (p == NULL)
+        return 0;
      int hl,hr;
-     hl = p && p->lchild ? p->lchild->height : 1;
-     hr = p && p->rchild ? p->rchild->height : 1;
-     return hl > hr ? hl+1 : hr+1;
+     hl =p->lchild ? p->lchild->height :0;
+     hr =p->rchild ? p->rchild->height :0;
+     return (hl>hr?hl:hr)+1;
 }
 
 // BalanceFactor function
 int BalanceFactor(struct node *p)
 {
-    if(root == NULL)
-       return 0;
+    if (p == NULL)
+        return 0;
     int hl,hr;
-    hl = p && p->lchild ? p->lchild->height : 1;
-    hr = p && p->rchild ? p->rchild->height : 1;
-    return hl-hr;
+    hl =p->lchild?p->lchild->height:0;
+    hr =p->rchild?p->rchild->height:0;
+    return hl - hr;
 }
 
 // Right rotation
-struct node *LLrotation(struct node *p)
+struct node *LLRotation(struct node *p)
 {
     struct node *pl=p->lchild;
     struct node *plr=pl->rchild;
     
     pl->rchild = p;
     p->lchild = plr;
-    p->height = NodeHeight(p);
-    pl->height = NodeHeight(pl);
+    p->height=NodeHeight(p);
+    pl->height=NodeHeight(pl);
     
-    if(root == p)
-      root=pl;
-      
-     return pl;
+    return pl;
 }
 
 // Left rotation
-struct node *RRrotation(struct node *p)
+struct node *RRRotation(struct node *p)
 {
     struct node *pr=p->rchild;
     struct node *prl=pr->lchild;
     
     pr->lchild = p;
     p->rchild = prl;
-    p->height = NodeHeight(p);
-    pr->height = NodeHeight(pr);
+    p->height=NodeHeight(p);
+    pr->height=NodeHeight(pr);
     
-    if(root == p)
-      root=pr;
-      
-     return pr;
+    return pr;
 }
 
 // Left-Right rotation
-struct node *LRrotation(struct node *p)
+struct node *LRRotation(struct node *p)
 {
-    node->lchild = RRrotation(node->lchild);
-        return LLrotation(node);
+    p->lchild = RRRotation(p->lchild);
+    return LLRotation(p);
 }
 
+
 // Right-Left rotation
-struct node *RLrotation(struct node *p)
+struct node *RLRotation(struct node *p)
 {
-    node->rchild = LLrotation(node->rchild);
-        return RRrotation(node);
+    p->rchild = LLRotation(p->rchild);
+    return RRRotation(p);
 }
  
 //Insert function
@@ -111,16 +116,60 @@ p->height = NodeHeight(p);
 if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == 1)
   return LLRotation(p);
 else if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == -1)
-  return LRRotation(p);
- else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == -1)
+   return LRRotation(p);
+else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == -1)
    return RRRotation(p);
- else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == 1)
+else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == 1)
    return RLRotation(p);
 return p;
 }
 
+
+//Inorder function
+void Inorder(struct node *root)
+{
+	if(root == NULL)
+	{
+		return;
+	}
+	Inorder(root -> lchild);
+	printf("%d ",root -> data);
+	Inorder(root -> rchild);
+	
+}
+
+//Preorder function
+void Preorder(struct node *root)// The argument can be given any variable name 
+{
+	if(root == 0)
+	{
+		return;
+	}
+	printf("%d ",root -> data);
+	Preorder(root -> lchild);
+	Preorder(root -> rchild);
+}
 // Main function
 int main()
 {
+    /*
+    root = Insert(root, 10);
+    root = Insert(root, 20);
+    root = Insert(root, 30);
+    root = Insert(root, 40);
+    root = Insert(root, 50);
+    root = Insert(root, 25);
+    */
+
+    root = Insert(root,50);
+    root = Insert(root,40);
+    root = Insert(root,30);
+    root = Insert(root,20);
+    root = Insert(root,10);
+    root = Insert(root,25);
+    printf("\nInorder traversal is:");
+    Inorder(root);
+    printf("\nPreorder traversal is:");
+    Preorder(root);
     return 0;
 }
