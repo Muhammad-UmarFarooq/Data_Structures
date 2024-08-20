@@ -17,18 +17,68 @@ struct node
 int NodeHeight(struct node *p)
 {
      int hl,hr;
-     hl = p && p->lchild ? p->lchild->height : 0;
-     hr = p && p->rchild ? p->rchild->height : 0;
+     hl = p && p->lchild ? p->lchild->height : 1;
+     hr = p && p->rchild ? p->rchild->height : 1;
      return hl > hr ? hl+1 : hr+1;
 }
 
 // BalanceFactor function
 int BalanceFactor(struct node *p)
 {
+    if(root == NULL)
+       return 0;
     int hl,hr;
-    hl = p && p->lchild ? p->lchild->height : 0;
-    hr = p && p->rchild ? p->rchild->height : 0;
+    hl = p && p->lchild ? p->lchild->height : 1;
+    hr = p && p->rchild ? p->rchild->height : 1;
     return hl-hr;
+}
+
+// Right rotation
+struct node *LLrotation(struct node *p)
+{
+    struct node *pl=p->lchild;
+    struct node *plr=pl->rchild;
+    
+    pl->rchild = p;
+    p->lchild = plr;
+    p->height = NodeHeight(p);
+    pl->height = NodeHeight(pl);
+    
+    if(root == p)
+      root=pl;
+      
+     return pl;
+}
+
+// Left rotation
+struct node *RRrotation(struct node *p)
+{
+    struct node *pr=p->rchild;
+    struct node *prl=pr->lchild;
+    
+    pr->lchild = p;
+    p->rchild = prl;
+    p->height = NodeHeight(p);
+    pr->height = NodeHeight(pr);
+    
+    if(root == p)
+      root=pr;
+      
+     return pr;
+}
+
+// Left-Right rotation
+struct node *LRrotation(struct node *p)
+{
+    node->lchild = RRrotation(node->lchild);
+        return LLrotation(node);
+}
+
+// Right-Left rotation
+struct node *RLrotation(struct node *p)
+{
+    node->rchild = LLrotation(node->rchild);
+        return RRrotation(node);
 }
  
 //Insert function
@@ -42,8 +92,8 @@ if(p==NULL)
 {
    t=(struct node *)malloc(sizeof(struct node));
    t->data = key;
-   // if one node is added then height of that node is 0 
-   t->height = 0;
+   // if one node is added then height of that node is 1
+   t->height = 1;
    t->lchild = t->rchild = NULL;
    return t;
 }
