@@ -12,7 +12,10 @@ void merge(int a[],int lb,int mid,int ub)
     int j=mid+1;
     int k=lb;
     // temp array (here size is the no.of elements in the range [lb.ub]) 
-    int b[ub - lb + 1];
+    /* here mid + ub  we have written 
+    if we write ub-lb+1 or i+j
+    it is showing segmentation fault*/
+    int b[ mid+ ub];
     while(i<=mid && j<=ub)
     {
         if(a[i] <= a[j])
