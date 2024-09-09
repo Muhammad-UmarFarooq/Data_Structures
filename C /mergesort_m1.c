@@ -1,14 +1,18 @@
+// jenny's lecture
 #include<stdio.h>
 
 
 // Function for merging arrays in sorted order
 void merge(int a[],int lb,int mid,int ub)
 {
+    /* i is 1st subarray 1st index
+     j is 2nd subarray 1st index
+     k is pointing to new sub array index */
     int i=lb;
     int j=mid+1;
     int k=lb;
-    // temp array
-    int b[mid+ub];
+    // temp array (here size is the no.of elements in the range [lb.ub]) 
+    int b[ub - lb + 1];
     while(i<=mid && j<=ub)
     {
         if(a[i] <= a[j])
