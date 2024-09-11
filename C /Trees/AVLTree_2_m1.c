@@ -182,28 +182,19 @@ struct node *Delete(struct node *p,int data)
         if(p->lchild == NULL || p->rchild == NULL)
         {
             // assigning that one key to temp
-            struct node *temp = root->lchild ? root->lchild : root->rchild;
+            struct node *temp = p->lchild ? p->lchild : p->rchild;
             // if no child keys
             if(temp == NULL)
             {
-/* This is an assignment of the pointer p to the pointer temp.
-After this statement, both p and temp will point to the same memory
-location. Essentially, temp is now pointing to whatever p was pointing
-to before the assignment.*/
-                temp = p;
-                p = NULL;     
+               temp = p;
+               p = NULL;
             }
             // if one child key
             else
-/*This statement involves dereferencing both pointers.
-*temp refers to the value at the location pointed to by temp, and *p
-refers to the value at the location pointed to by p.
-This assignment sets the value at the location pointed to by p to the
-value at the location pointed to by temp. In other words, it changes the
-value of the variable that p points to, to the value of the variable
-that temp points to.*/
-                *p = *temp;
-            free(temp);
+            {
+              *p = *temp;
+            }
+          free(temp);
         }
         // if both child keys are present
         else
@@ -256,7 +247,12 @@ int main()
     Preorder(root);
     root = Delete(root,50);
     printf("\n50 is deleted");
-     printf("\nInorder traversal is:");
+    // root = Delete(root,10);
+    // root = Delete(root,50);
+    // root = Delete(root,30);
+    // root = Delete(root,20);
+    // root = Delete(root,40);
+    printf("\nInorder traversal is:");
     Inorder(root);
     printf("\nPreorder traversal is:");
     Preorder(root);
