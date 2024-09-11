@@ -1,4 +1,3 @@
-
 // AVL Trees
 /* Operations -- NodeHeight,
                  BalanceFactor,
@@ -154,6 +153,15 @@ void Preorder(struct node *root)// The argument can be given any variable name
 	printf("%d ",root -> data);
 	Preorder(root -> lchild);
 	Preorder(root -> rchild);
+}
+
+// MinValueNode function
+struct node *minNode(struct node *node)
+{
+    struct node *current = node;
+    while(current->left != NULL)
+      current = current->left;
+    return current;
 }
 
 //Delete function
