@@ -96,23 +96,28 @@ struct node *t=NULL;
 if(p==NULL)
 {
    t=(struct node *)malloc(sizeof(struct node));
+   if (t == NULL) 
+    {
+       printf("Memory allocation failed");
+       exit(1);
+    }
    t->data = key;
+   t->lchild = t->rchild = NULL;
    // if one node is added then height of that node is 1
    t->height = 1;
-   t->lchild = t->rchild = NULL;
    return t;
 }
-	
+// Recursive case: Insert key in the correct subtree	
 if(key < p->data)
    p->lchild = Insert(p->lchild,key);
 	
 else if(key > p->data)
    p->rchild = Insert(p->rchild,key);
 	
+// Update the height of the current node
 p->height = NodeHeight(p); 
-// Now we have to perform the rotations.
-// To perform rotations we have to check the balance factor
-// After updating the height we have to know the balance factor
+	
+// Check balance and apply rotations if needed
 if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == 1)
   return LLRotation(p);
 else if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == -1)
