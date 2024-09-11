@@ -159,36 +159,37 @@ void Preorder(struct node *root)// The argument can be given any variable name
 struct node *minNode(struct node *node)
 {
     struct node *current = node;
-    while(current->left != NULL)
-      current = current->left;
+    while(current->lchild != NULL)
+      current = current->lchild;
     return current;
 }
 
 //Delete function
+// --STEP 1: PERFORM STANDARD BST DELETE
 struct node *Delete(struct node *p,int data)
 {
     //Find the node and delete it
     if(p == NULL)
       return p;
     if(data < p->data)
-      p->left = Delete(p->left,data);
+      p->lchild = Delete(p->lchild,data);
     else if(data > p->data)
-      p->right = Delete(p->right,data);
+      p->rchild = Delete(p->rchild,data);
     //else refers if data == p->data
     else
     {
         //if both child keys are NULL or atleast one key is present 
-        if(p->left == NULL || p->right == NULL)
+        if(p->lchild == NULL || p->rchild == NULL)
         {
             // assigning that one key to temp
-            struct node *temp = root->left ? root->left : root->right;
+            struct node *temp = root->lchild ? root->lchild : root->rchild;
             // if no child keys
             if(temp == NULL)
             {
 /* This is an assignment of the pointer p to the pointer temp.
 After this statement, both p and temp will point to the same memory
 location. Essentially, temp is now pointing to whatever p was pointing
-to before the assignment.*/.
+to before the assignment.*/
                 temp = p;
                 p = NULL;     
             }
@@ -208,14 +209,27 @@ that temp points to.*/
         else
         {
             // we can take minnode from right subtree or maxnode from left subtree
-           struct node *temp = minNode(p->right);
+           struct node *temp = minNode(p->rchild);
            p->data = temp->data;
-           p->right = Delete(p->right,temp->data)
+           p->rchild = Delete(p->rchild,temp->data);
         }
     }
+    // If the tree had only one node then return
     if(p == NULL)
       return p;
-    // update the balance factor for each node and balance the tree
+    // --STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
+    p->height = NodeHeight(p);
+    // --STEP 3: update the balance factor of each node and balance the tree
+    if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == 1)
+      return LLRotation(p);
+    else if(BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == -1)
+      return LRRotation(p);
+    else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == -1)
+      return RRRotation(p);
+    else if(BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == 1)
+      return RLRotation(p);
+    
+    return p;
 }
 
 // Main function
@@ -237,6 +251,12 @@ int main()
     root = Insert(root,10);
     root = Insert(root,25);
     printf("\nInorder traversal is:");
+    Inorder(root);
+    printf("\nPreorder traversal is:");
+    Preorder(root);
+    root = Delete(root,50);
+    printf("\n50 is deleted");
+     printf("\nInorder traversal is:");
     Inorder(root);
     printf("\nPreorder traversal is:");
     Preorder(root);
