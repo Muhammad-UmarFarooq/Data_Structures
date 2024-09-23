@@ -1,4 +1,5 @@
-
+//heap sort with 1 based index
+//abdul bari sir reference
 #include<stdio.h>
  void Insert(int A  [],int n)
  {
