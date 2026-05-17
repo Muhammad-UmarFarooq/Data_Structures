@@ -1,0 +1,35 @@
+class Node:
+    def __init__(self,val):
+        self.val = val
+        self.next = None
+        self.prev = None
+class Solution:
+    def deleteTail(self,head):
+        if not head:
+            return None
+        if not head.next:
+            return None
+        temp = head
+        while temp.next:
+            temp = temp.next
+        temp.prev.next = None
+        return head
+    def printList(self,head):
+        temp = head
+        while temp:
+            print(temp.val, end = " ")
+            temp = temp.next
+        print()
+
+if __name__ == "__main__":
+    head = Node(1)
+    head.next = Node(2)
+    head.next.prev = head
+    head.next.next = Node(3)
+    head.next.next.prev = head.next
+    obj = Solution()
+    print("Before deleting")
+    obj.printList(head)
+    head = obj.deleteTail(head)
+    print("After deleting last node")
+    obj.printList(head)
